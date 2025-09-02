@@ -431,7 +431,7 @@ public class CaptchaUtil {
         return isMaximumFailedLoginAttemptsReached(usernameWithDomain, tenantDomain, RECAPTCHA_VERIFICATION_CLAIM);
     }
 
-    public static boolean isMaximumFailedLoginAttemptsReached(String usernameWithDomain, String tenantDomain,
+    public static boolean isMaximumFailedLoginAttemptsReached(String username, String tenantDomain,
                                                               String failedAttemptsClaim) throws CaptchaException {
 
         Property[] connectorConfigs;
@@ -495,8 +495,8 @@ public class CaptchaUtil {
             // Checking that domain name is already prepended to the username.
             // If so user claims can be retrieved.
             // Otherwise, user store manager should be resolved.
-            if (!usernameWithDomain.contains(UserCoreConstants.DOMAIN_SEPARATOR)) {
-                userStoreManager = getUserStoreManagerForUser(usernameWithDomain, userStoreManager);
+            if (!username.contains(UserCoreConstants.DOMAIN_SEPARATOR)) {
+                userStoreManager = getUserStoreManagerForUser(username, userStoreManager);
             }
             if (userStoreManager == null) {
                 if (log.isDebugEnabled()) {
@@ -505,8 +505,7 @@ public class CaptchaUtil {
                 // Invalid user. User cannot be found in any user store.
                 return false;
             }
-            claimValues = userStoreManager.getUserClaimValues(MultitenantUtils
-                            .getTenantAwareUsername(usernameWithDomain),
+            claimValues = userStoreManager.getUserClaimValues(username,
                     new String[]{failedAttemptsClaim}, UserCoreConstants.DEFAULT_PROFILE);
         } catch (org.wso2.carbon.user.core.UserStoreException e) {
             if (log.isDebugEnabled()) {

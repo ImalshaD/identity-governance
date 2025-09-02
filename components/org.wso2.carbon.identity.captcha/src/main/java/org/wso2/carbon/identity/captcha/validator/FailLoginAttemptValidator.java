@@ -88,7 +88,7 @@ public class FailLoginAttemptValidator extends AbstractIdentityMessageHandler im
 
             if (map.get(FrameworkConstants.AnalyticsAttributes.USER) instanceof User) {
                 User failedUser = (User) map.get(FrameworkConstants.AnalyticsAttributes.USER);
-                String username = failedUser.toFullQualifiedUsername();
+                String username = failedUser.getUserName();
                 if (!StringUtils.isBlank(failedUser.getUserStoreDomain()) &&
                         !IdentityUtil.getPrimaryDomainName().equals(failedUser.getUserStoreDomain())) {
                     username = UserCoreUtil.addDomainToName(username, failedUser.getUserStoreDomain());
